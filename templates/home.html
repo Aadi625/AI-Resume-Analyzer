@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Smart Resume AI
+{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+
+    <span class="eyebrow">
+        AI Resume Analyzer
+    </span>
+
+    <h1>
+        Know Your Resume, Discover Your Strengths and Gaps,
+        and Make Smarter Decisions for Your Next Career Move.
+    </h1>
+
+    <p>
+        Upload a resume, choose a target role, and get an ATS score,
+        skill gaps, recommendations and a live dashboard.
+    </p>
+
+    <a
+        class="btn"
+        href="{{ url_for('analyzer_page') }}"
+    >
+        Analyze My Resume
+    </a>
+
+</section>
+
+
+<div class="grid three">
+
+    <div class="card">
+        <h3>Resume Analysis</h3>
+
+        <p>
+            Extract contact information, education, experience,
+            projects and skills from PDF/DOCX resumes.
+        </p>
+    </div>
+
+
+    <div class="card">
+        <h3>Role Matching</h3>
+
+        <p>
+            Compare your resume skills with the requirements
+            of your selected target role.
+        </p>
+    </div>
+
+
+    <div class="card">
+        <h3>Actionable Dashboard</h3>
+
+        <p>
+            See ATS score, matched skills, missing skills and
+            recommendations for the current resume.
+        </p>
+    </div>
+
+</div>
+
+{% endblock %}

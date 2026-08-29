@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Jobs
+{% endblock %}
+
+{% block content %}
+
+<div class="page-head">
+    <h1>Job Search</h1>
+
+    <p>
+        Choose a role and open job searches on major portals.
+    </p>
+</div>
+
+
+<form
+    class="card form"
+    method="get"
+>
+
+    <label>
+        Target Role
+
+        <select name="role">
+
+            <option value="">
+                Select role
+            </option>
+
+            {% for r in roles %}
+
+                <option
+                    value="{{ r.name }}"
+                    {% if r.name == selected_role %}
+                        selected
+                    {% endif %}
+                >
+                    {{ r.name }}
+                </option>
+
+            {% endfor %}
+
+        </select>
+    </label>
+
+
+    <button
+        class="btn"
+        type="submit"
+    >
+        Search
+    </button>
+
+</form>
+
+
+{% if selected %}
+
+<section class="card">
+
+    <h2>
+        {{ selected_role }}
+    </h2>
+
+    <p>
+        {{ selected.description }}
+    </p>
+
+
+    <h3>
+        Required skills
+    </h3>
+
+    <div class="chips">
+
+        {% for s in selected.required_skills %}
+
+            <span>
+                {{ s }}
+            </span>
+
+        {% endfor %}
+
+    </div>
+
+
+    <div class="actions">
+
+        {% for name, link in links %}
+
+            <a
+                class="btn secondary"
+                target="_blank"
+                href="{{ link }}"
+            >
+                {{ name }}
+            </a>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endif %}
+
+{% endblock %}

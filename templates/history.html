@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    History
+{% endblock %}
+
+{% block content %}
+
+<div class="page-head">
+    <h1>Resume History</h1>
+
+    <p>
+        Saved analyses from the database.
+    </p>
+</div>
+
+
+<div class="card">
+
+    <table>
+
+        <tr>
+            <th>File</th>
+            <th>Role</th>
+            <th>ATS Score</th>
+            <th>Date</th>
+            <th></th>
+        </tr>
+
+
+        {% for r in resumes %}
+
+        <tr>
+
+            <td>
+                {{ r.filename }}
+            </td>
+
+            <td>
+                {{ r.target_role }}
+            </td>
+
+            <td>
+                {{ r.analysis.ats_score if r.analysis else 0 }}%
+            </td>
+
+            <td>
+                {{ r.created_at.strftime('%Y-%m-%d %H:%M') }}
+            </td>
+
+            <td>
+                <a href="{{ url_for('history_item', resume_id=r.id) }}">
+                    Open
+                </a>
+            </td>
+
+        </tr>
+
+        {% else %}
+
+        <tr>
+            <td colspan="5">
+                No saved analyses.
+            </td>
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+</div>
+
+{% endblock %}

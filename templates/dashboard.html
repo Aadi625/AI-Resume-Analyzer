@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Dashboard
+{% endblock %}
+
+{% block content %}
+
+<div class="page-head">
+    <h1>Resume Dashboard</h1>
+
+    <p>
+        {{ resume.filename }}
+        · Target role:
+        <strong>{{ resume.target_role }}</strong>
+    </p>
+</div>
+
+
+<!-- ===================== METRICS ===================== -->
+
+<div class="grid four">
+
+    <div class="metric">
+        <span>ATS Score</span>
+        <strong>{{ result.ats_score }}%</strong>
+    </div>
+
+    <div class="metric">
+        <span>Skill Match</span>
+        <strong>{{ result.keyword_match.score|round(1) }}%</strong>
+    </div>
+
+    <div class="metric">
+        <span>Section Score</span>
+        <strong>{{ result.section_score|round(1) }}%</strong>
+    </div>
+
+    <div class="metric">
+        <span>Format Score</span>
+        <strong>{{ result.format_score }}%</strong>
+    </div>
+
+</div>
+
+
+<!-- ===================== PERSONAL INFO & SKILLS ===================== -->
+
+<div class="grid two">
+
+    <section class="card">
+        <h2>Personal Information</h2>
+
+        <p>
+            <b>{{ result.name }}</b>
+        </p>
+
+        <p>
+            {{ result.email }}
+        </p>
+
+        <p>
+            {{ result.phone }}
+        </p>
+
+        <p>
+            {{ result.linkedin }}
+        </p>
+
+        <p>
+            {{ result.github }}
+        </p>
+    </section>
+
+
+    <section class="card">
+        <h2>Skills</h2>
+
+        <div class="chips">
+            {% for skill in result.skills %}
+                <span>{{ skill }}</span>
+            {% endfor %}
+        </div>
+    </section>
+
+</div>
+
+
+<!-- ===================== SKILL MATCHING ===================== -->
+
+<div class="grid two">
+
+    <section class="card success">
+        <h2>Matched Skills</h2>
+
+        <div class="chips">
+            {% for skill in result.keyword_match.found_skills %}
+                <span>{{ skill }}</span>
+            {% else %}
+                <p>No matched skills found.</p>
+            {% endfor %}
+        </div>
+    </section>
+
+
+    <section class="card danger">
+        <h2>Missing Skills</h2>
+
+        <div class="chips">
+            {% for skill in result.keyword_match.missing_skills %}
+                <span>{{ skill }}</span>
+            {% else %}
+                <p>No missing required skills.</p>
+            {% endfor %}
+        </div>
+    </section>
+
+</div>
+
+
+<!-- ===================== RECOMMENDATIONS & SUMMARY ===================== -->
+
+<div class="grid two">
+
+    <section class="card">
+        <h2>Recommendations</h2>
+
+        <ul>
+            {% for item in result.suggestions %}
+                <li>{{ item }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+
+    <section class="card">
+        <h2>Summary</h2>
+
+        <p>
+            {{ result.summary or 'No professional summary detected.' }}
+        </p>
+    </section>
+
+</div>
+
+
+<!-- ===================== ACTIONS ===================== -->
+
+<div class="actions">
+
+    <a
+        class="btn"
+        href="{{ url_for('export_excel') }}"
+    >
+        Export Current Analysis to Excel
+    </a>
+
+    <a
+        class="btn secondary"
+        href="{{ url_for('history') }}"
+    >
+        View History
+    </a>
+
+</div>
+
+{% endblock %}

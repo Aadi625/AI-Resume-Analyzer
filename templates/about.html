@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    About
+{% endblock %}
+
+{% block content %}
+
+<div class="page-head">
+    <h1>About the Project</h1>
+</div>
+
+<section class="card">
+    <p>
+        Know Your Resume. Know Your Next Move.
+        <br></br>
+        Resume Analyzer is a web-based application designed to help job seekers understand how well their resume matches a 
+        specific job role. Instead of manually comparing a resume with job requirements, the system automatically analyzes the 
+        uploaded resume and provides meaningful insights about the candidate's skills, education, experience, and overall profile.
+        <br></br>
+        The application allows users to upload their resume in PDF or DOCX format and select a target job role. The system extracts
+        relevant information from the resume, identifies the candidate's skills, and compares them with the skills required for the
+        selected role.
+    </p>
+    <h3> What the system provides </h3>
+    <ul>
+        <li><b>Resume Analysis</b> – Extracts important information such as skills, education, and experience.</li>
+        <li><b>Skill Matching</b> – Compares the candidate's skills with the required skills for the selected job role.</li>
+        <li><b>Matched Skills</b> – Shows the skills already present in the resume</li>
+        <li><b>Missing Skills</b> – Identifies important skills that may need to be developed.</li>
+        <li><b>Resume Score</b> – Provides an overall score based on the resume's relevance to the selected role.</li>
+        <li><b>Recommendations</b> – Gives actionable suggestions to improve the resume and prepare for the target role.</li>
+        <li><b>LinkedIn Detection</b> – Checks whether LinkedIn information is included in the resume.</li>
+        <li><b>Interactive Dashboard</b> – Presents the analysis in an easy-to-understand format.</li>
+    </ul>
+    <h3>How It Works</h3>
+    <p>
+        Upload Resume → Extract Resume Data → Analyze Skills → Select Target Role → Compare Required Skills → Generate Score
+         → Provide Recommendations
+        <br></br>
+        The project focuses on making resume analysis simple, transparent, and useful for career preparation. Rather than only 
+        giving a score, it helps users understand why their resume received that score and what they can improve.
+    </p>
+    <h3>Technology</h3>
+    <p>
+        The project is developed using Python and Flask, with dedicated modules for resume parsing, resume analysis, job-role 
+        requirements, and skill matching. PDF and DOCX resumes are processed to extract relevant information, which is then used 
+        to generate the final analysis.
+    </p>
+</section>
+
+{% endblock %}

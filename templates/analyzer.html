@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Resume Analyzer
+{% endblock %}
+
+{% block content %}
+
+<div class="page-head">
+    <h1>Resume Analyzer</h1>
+    <p>
+        Upload your resume and select the role you are targeting.
+    </p>
+</div>
+
+<form
+    class="card form"
+    method="post"
+    enctype="multipart/form-data"
+>
+    <label>
+        Resume PDF/DOCX
+
+        <input
+            type="file"
+            name="resume"
+            accept=".pdf,.docx"
+            required
+        >
+    </label>
+
+    <label>
+        Target Role
+
+        <select name="target_role" required>
+            <option value="">
+                Select a role
+            </option>
+
+            {% for r in roles %}
+                <option value="{{ r.name }}">
+                    {{ r.name }} — {{ r.category }}
+                </option>
+            {% endfor %}
+        </select>
+    </label>
+
+    <button
+        class="btn"
+        type="submit"
+    >
+        Analyze Resume
+    </button>
+</form>
+
+{% endblock %}
