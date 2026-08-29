@@ -9,5 +9,4 @@ PyPDF2
 scikit-learn
 numpy
 requests
-selenium
-webdriver-manager
+gunicorn
