@@ -5,7 +5,7 @@ python-dotenv
 pandas
 openpyxl
 python-docx
-PyPDF2
+pypdf
 scikit-learn
 numpy
 requests
