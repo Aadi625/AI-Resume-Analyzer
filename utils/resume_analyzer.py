@@ -365,6 +365,7 @@ class ResumeAnalyzer:
         skills_keywords = [
         'skills',
         'technical skills',
+        'core skills',
         'competencies',
         'expertise',
         'core competencies',
