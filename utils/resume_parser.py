@@ -16,24 +16,16 @@ class ResumeParser:
     def __init__(self):
         pass
 
-    # =========================================================
+   
     # PDF TEXT EXTRACTION
-    # =========================================================
+    
 
     def extract_text_from_pdf(self, pdf_file):
-        """
-        Extract text from a PDF file using pypdf.
-
-        Supports:
-        - Flask FileStorage
-        - BytesIO
-        - raw bytes
-        """
+        
 
         try:
-            # -------------------------------------------------
+            
             # Convert input into bytes
-            # -------------------------------------------------
 
             if hasattr(pdf_file, "read"):
                 pdf_file.seek(0)
@@ -47,9 +39,9 @@ class ResumeParser:
             if not file_content:
                 raise ValueError("The uploaded PDF is empty.")
 
-            # -------------------------------------------------
+            
             # Create PDF reader
-            # -------------------------------------------------
+           
 
             pdf_stream = BytesIO(file_content)
 
@@ -65,9 +57,9 @@ class ResumeParser:
                         "Please upload an unlocked PDF."
                     )
 
-            # -------------------------------------------------
+            
             # Extract text page by page
-            # -------------------------------------------------
+           
 
             text_parts = []
 
@@ -89,71 +81,51 @@ class ResumeParser:
                         f"from PDF page {page_number}: {page_error}"
                     )
 
-            # -------------------------------------------------
+            
             # Combine text
-            # -------------------------------------------------
-
+            
             text = "\n\n".join(text_parts)
 
             # Normalize excessive whitespace
             text = self.clean_text(text)
 
-            # -------------------------------------------------
+            
             # IMPORTANT:
             # If no text was extracted, don't silently hide it.
-            # -------------------------------------------------
+            
 
             if not text.strip():
 
-                print(
-                    "\n========================================"
-                    "\nPDF TEXT EXTRACTION RESULT"
-                    "\n========================================"
+                print("\nPDF TEXT EXTRACTION RESULT"
                     "\nNo text was extracted from this PDF."
                     "\nPossible reasons:"
                     "\n1. PDF is scanned/image based."
                     "\n2. PDF contains text as images."
                     "\n3. PDF uses an unusual encoding."
-                    "\n4. PDF is corrupted."
-                    "\n========================================\n"
-                )
+                    "\n4. PDF is corrupted.")
 
             return text
 
         except Exception as e:
 
-            print(
-                "\n========================================"
-                "\nPDF EXTRACTION ERROR"
-                "\n========================================"
-            )
+            print("\nPDF EXTRACTION ERROR")
 
             print(str(e))
 
-            print(
-                "========================================\n"
-            )
-
+            
             return ""
 
-    # =========================================================
+    
     # DOCX TEXT EXTRACTION
-    # =========================================================
+    
 
     def extract_text_from_docx(self, docx_file):
-        """
-        Extract text from DOCX files.
-
-        Extracts:
-        - paragraphs
-        - tables
-        """
 
         try:
 
-            # -------------------------------------------------
+            
             # Convert input to BytesIO
-            # -------------------------------------------------
+            
 
             if hasattr(docx_file, "read"):
 
@@ -175,18 +147,17 @@ class ResumeParser:
 
                 raise ValueError("The uploaded DOCX file is empty.")
 
-            # -------------------------------------------------
+            
             # Open DOCX
-            # -------------------------------------------------
+            
 
             document = docx.Document(BytesIO(file_content))
 
             text_parts = []
 
-            # -------------------------------------------------
+            
             # Extract paragraphs
-            # -------------------------------------------------
-
+            
             for paragraph in document.paragraphs:
 
                 paragraph_text = paragraph.text.strip()
@@ -195,11 +166,10 @@ class ResumeParser:
 
                     text_parts.append(paragraph_text)
 
-            # -------------------------------------------------
+            
             # Extract tables
-            #
             # Many resumes contain information inside tables.
-            # -------------------------------------------------
+           
 
             for table in document.tables:
 
@@ -219,9 +189,9 @@ class ResumeParser:
 
                         text_parts.append(" | ".join(row_text))
 
-            # -------------------------------------------------
+            
             # Combine
-            # -------------------------------------------------
+            
 
             text = "\n".join(text_parts)
 
@@ -229,50 +199,28 @@ class ResumeParser:
 
             if not text.strip():
 
-                print(
-                    "\n========================================"
-                    "\nDOCX TEXT EXTRACTION RESULT"
-                    "\n========================================"
-                    "\nNo text was extracted from this DOCX."
-                    "\n========================================\n"
-                )
+                print("\nDOCX TEXT EXTRACTION RESULT"
+                    "\nNo text was extracted from this DOCX.")
 
             return text
 
         except Exception as e:
 
-            print(
-                "\n========================================"
-                "\nDOCX EXTRACTION ERROR"
-                "\n========================================"
-            )
+            print("\nDOCX EXTRACTION ERROR")
 
             print(str(e))
 
-            print(
-                "========================================\n"
-            )
-
             return ""
 
-    # =========================================================
+   
     # GENERAL TEXT EXTRACTION
-    # =========================================================
+    
 
     def extract_text(self, file):
-        """
-        Detect file type and extract text.
-
-        Used by app.py:
-
-            resume_text = parser.extract_text(uploaded)
-        """
 
         try:
 
-            # -------------------------------------------------
             # Validate file
-            # -------------------------------------------------
 
             if file is None:
 
@@ -280,9 +228,7 @@ class ResumeParser:
 
                 return ""
 
-            # -------------------------------------------------
             # Get filename safely
-            # -------------------------------------------------
 
             filename = getattr(file, "filename", "")
 
@@ -296,39 +242,38 @@ class ResumeParser:
                 f"\nResumeParser: Processing file -> {filename}"
             )
 
-            # -------------------------------------------------
             # Reset file pointer
-            # -------------------------------------------------
+           
 
             if hasattr(file, "seek"):
 
                 file.seek(0)
 
-            # -------------------------------------------------
+            
             # Determine extension
-            # -------------------------------------------------
+            
 
             extension = os.path.splitext(filename)[1].lower()
 
-            # -------------------------------------------------
+           
             # PDF
-            # -------------------------------------------------
+            
 
             if extension == ".pdf":
 
                 text = self.extract_text_from_pdf(file)
 
-            # -------------------------------------------------
+           
             # DOCX
-            # -------------------------------------------------
+            
 
             elif extension == ".docx":
 
                 text = self.extract_text_from_docx(file)
 
-            # -------------------------------------------------
+            
             # Unsupported
-            # -------------------------------------------------
+            
 
             else:
 
@@ -338,58 +283,41 @@ class ResumeParser:
 
                 return ""
 
-            # -------------------------------------------------
+            
             # Final validation
-            # -------------------------------------------------
+            
 
             if text:
 
                 print(
                     f"ResumeParser: Successfully extracted "
-                    f"{len(text)} characters."
-                )
+                    f"{len(text)} characters.")
 
-                print(
-                    "First 300 characters:"
-                )
-
-                print(
-                    repr(text[:300])
-                )
+                print("First 300 characters:")
+                
+                print(repr(text[:300]))
 
             else:
 
-                print(
-                    "ResumeParser: Extracted text is EMPTY."
-                )
+                print("ResumeParser: Extracted text is EMPTY.")
 
             return text
 
         except Exception as e:
 
-            print(
-                "\n========================================"
-                "\nRESUME PARSER ERROR"
-                "\n========================================"
-            )
+            print("\nRESUME PARSER ERROR")
 
             print(str(e))
 
-            print(
-                "========================================\n"
-            )
 
             return ""
 
-    # =========================================================
+    
     # CLEAN TEXT
-    # =========================================================
+    
 
     def clean_text(self, text):
-        """
-        Clean extracted text without destroying useful
-        resume information.
-        """
+        
 
         if not text:
 
@@ -412,17 +340,16 @@ class ResumeParser:
 
         return text.strip()
 
-    # =========================================================
+    
     # SIMPLE RESUME PARSING
-    # =========================================================
+    
 
     def parse(self, file):
 
         text = self.extract_text(file)
 
-        # -----------------------------------------------------
+        
         # If extraction failed
-        # -----------------------------------------------------
 
         if not text:
 
@@ -433,9 +360,9 @@ class ResumeParser:
                 "raw_text": ""
             }
 
-        # -----------------------------------------------------
+       
         # Skills
-        # -----------------------------------------------------
+        
 
         skills = []
 
@@ -516,10 +443,10 @@ class ResumeParser:
 
                 skills.append(skill)
 
-        # -----------------------------------------------------
+       
         # Experience
-        # -----------------------------------------------------
 
+        
         experience = []
 
         lines = text.split("\n")
@@ -577,9 +504,9 @@ class ResumeParser:
 
                 experience.append(clean_line)
 
-        # -----------------------------------------------------
+        
         # Education
-        # -----------------------------------------------------
+        
 
         education = []
 
@@ -614,9 +541,8 @@ class ResumeParser:
 
                 education.append(clean_line)
 
-        # -----------------------------------------------------
+        
         # Return parsed result
-        # -----------------------------------------------------
 
         return {
             "skills": skills,
