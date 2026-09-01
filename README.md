@@ -95,7 +95,9 @@ Increases Job Opportunities: Tailor your resume to any role.
 Professional Output: Choose from modern and polished designs.
 Boosts Confidence: Optimized, recruiter-ready resumes.
 
+QUICK GLANCE
 
+You can review this file - https://github.com/Aadi625/AI-Resume-Analyzer/blob/main/Screenshots.pdf
 
 
 
